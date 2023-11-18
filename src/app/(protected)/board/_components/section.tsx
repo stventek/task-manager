@@ -3,7 +3,7 @@ import Task from "./task";
 
 export default function Section(props: SectionType) {
   return (
-    <div className="card w-96 bg-base-100 shadow-xl bg-base-300">
+    <div className="card w-96 bg-base-100 shadow-xl bg-base-300 shrink-0">
       <div className="card-body p-4">
         <div className="card-actions">
           <h2 className="card-title flex-1">{props.name}</h2>

@@ -5,9 +5,5 @@ const DynamicSections = dynamic(() => import("./_components/sections"), {
 });
 
 export default function Board() {
-  return (
-    <main>
-      <DynamicSections />
-    </main>
-  );
+  return <DynamicSections />;
 }

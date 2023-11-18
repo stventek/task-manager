@@ -12,7 +12,7 @@ const config: Config = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["dim"],
+    themes: ["nord"],
   },
 };
 export default config;

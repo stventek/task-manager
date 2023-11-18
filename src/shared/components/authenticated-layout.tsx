@@ -29,7 +29,7 @@ export default function AuthenticatedLayout({
       {isAuthenticatedState ? (
         children
       ) : (
-        <div className="text-center mt-32">
+        <div className="text-center mt-44">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}

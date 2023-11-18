@@ -12,10 +12,19 @@ const sectionsSlice = createSlice({
     replaceSections: (state, action) => {
       state.sections = action.payload;
     },
+    addTask: (state, action) => {
+      state.sections.some((section) => {
+        const task = action.payload.task;
+        if (section.id === task.id) {
+          section.tasks.push(task);
+          return true;
+        }
+      });
+    },
   },
 });
 
-export const { replaceSections } = sectionsSlice.actions;
+export const { replaceSections, addTask } = sectionsSlice.actions;
 
 export const sectionsStore = configureStore({
   reducer: sectionsSlice.reducer,

@@ -5,3 +5,13 @@
 @import "node_modules/dragula/dist/dragula.min.css";
 
 
+/*dragula class*/
+.gu-mirror {
+  cursor:move; cursor:-webkit-grabbing; cursor:-moz-grabbing; cursor:grabbing;
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 1;
+  -webkit-transform: rotate(5deg);
+transform: rotate(5deg);
+}
