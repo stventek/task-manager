@@ -1,7 +1,13 @@
-export default function Home() {
+import dynamic from "next/dynamic";
+
+const DynamicSections = dynamic(() => import("./_components/sections"), {
+  ssr: false,
+});
+
+export default function Board() {
   return (
     <main>
-      <h1>board</h1>
+      <DynamicSections />
     </main>
   );
 }
