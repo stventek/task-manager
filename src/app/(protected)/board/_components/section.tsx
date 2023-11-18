@@ -1,20 +1,55 @@
+import axios from "axios";
 import { SectionType } from "../types/section";
+import AddTask from "./add-task";
 import Task from "./task";
+import { TaskType } from "../types/task";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTask } from "@/shared/redux/sections";
 
 export default function Section(props: SectionType) {
+  const [isAddingTask, setAddingTask] = useState(false);
+  const dispatch = useDispatch();
+
+  const createTask = (name: string) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    };
+    let priority;
+    let lastTask = props.tasks.at(-1);
+    if (lastTask) priority = lastTask.priority - 1000;
+    else priority = 100000;
+    axios
+      .post<TaskType>(
+        process.env.NEXT_PUBLIC_API_BASE + "/api/task/",
+        {
+          name,
+          priority,
+          section: props.id,
+        },
+        { headers }
+      )
+      .then((response) => {
+        setAddingTask(false);
+        dispatch(addTask({ task: response.data }));
+      })
+      .catch((err) => {});
+  };
+
   return (
     <div className="card w-96 bg-base-100 shadow-xl bg-base-300 shrink-0">
       <div className="card-body p-4">
         <div className="card-actions">
           <h2 className="card-title flex-1">{props.name}</h2>
-          <button className="btn btn-square btn-sm btn-ghost">
+          <button className="btn btn-square btn-sm btn-ghost section-task">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              className="inline-block w-5 h-5 stroke-current"
+              className="inline-block w-5 h-5 stroke-current section-task"
             >
               <path
+                className="section-task"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
@@ -28,9 +63,16 @@ export default function Section(props: SectionType) {
             <Task key={task.id} {...task} />
           ))}
         </div>
-        <button className="btn btn-ghost justify-start btn-sm">
-          Add card...
-        </button>
+        {isAddingTask ? (
+          <AddTask save={createTask} cancel={() => setAddingTask(false)} />
+        ) : (
+          <button
+            onClick={() => setAddingTask(true)}
+            className={"btn btn-ghost justify-start btn-sm section-task"}
+          >
+            Add card...
+          </button>
+        )}
       </div>
     </div>
   );

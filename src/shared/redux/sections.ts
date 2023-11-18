@@ -15,7 +15,7 @@ const sectionsSlice = createSlice({
     addTask: (state, action) => {
       state.sections.some((section) => {
         const task = action.payload.task;
-        if (section.id === task.id) {
+        if (section.id === task.section) {
           section.tasks.push(task);
           return true;
         }

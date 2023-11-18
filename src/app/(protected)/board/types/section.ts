@@ -5,6 +5,7 @@ export type SectionType = {
   id: number;
   user: number;
   tasks: TaskType[];
+  priority: number;
 };
 
 export type SectionsResponse = {

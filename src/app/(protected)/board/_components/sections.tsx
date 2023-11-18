@@ -12,6 +12,9 @@ import {
   sectionsStore,
 } from "@/shared/redux/sections";
 import Section from "./section";
+import { memo } from "react";
+
+const SectionMemo = memo(Section);
 
 function Sections() {
   const state = useSelector((state: sectionsStateType) => state.sections);
@@ -35,7 +38,7 @@ function Sections() {
     };
     axios
       .get<SectionsResponse>(
-        process.env.NEXT_PUBLIC_API_BASE + "/api/section?ordering=priority",
+        process.env.NEXT_PUBLIC_API_BASE + "/api/section?ordering=-priority",
         { headers }
       )
       .then((response) => {
@@ -67,7 +70,7 @@ function Sections() {
         className="flex px-8 pt-20 gap-4 items-start overflow-x-auto max-w-fit"
       >
         {state.map((section) => (
-          <Section key={section.id} {...section} />
+          <SectionMemo key={section.id} {...section} />
         ))}
       </div>
     </main>
