@@ -14,6 +14,7 @@ import {
 import Section from "./section";
 import { memo } from "react";
 import CreateSection from "./create-section";
+import { getAccessToken } from "@/shared/utils/get-jwt";
 
 const SectionMemo = memo(Section);
 
@@ -38,7 +39,7 @@ function Sections() {
       }
     );
     const headers = {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${getAccessToken()}`,
     };
     axios
       .get<SectionsResponse>(

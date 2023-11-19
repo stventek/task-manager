@@ -6,6 +6,7 @@ import { TaskType } from "../_types/task";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "@/shared/redux/sections";
+import { getAccessToken } from "@/shared/utils/get-jwt";
 
 export default function Section(props: SectionType) {
   const [isAddingTask, setAddingTask] = useState(false);
@@ -14,7 +15,7 @@ export default function Section(props: SectionType) {
 
   const createTask = (name: string) => {
     const headers = {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${getAccessToken()}`,
     };
     let priority;
     let lastTask = props.tasks.at(-1);

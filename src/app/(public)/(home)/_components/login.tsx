@@ -4,6 +4,7 @@ import axios from "axios";
 import { Formik } from "formik";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { setAccessToken } from "@/shared/utils/get-jwt";
 
 type StringObject = { [key: string]: string };
 
@@ -35,7 +36,7 @@ export default function Login() {
           )
           .then((response) => {
             setSubmitting(false);
-            localStorage.setItem("accessToken", response.data.access);
+            setAccessToken(response.data.access, values.remember);
             push("/board");
           })
           .catch((err) => {

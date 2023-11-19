@@ -4,6 +4,7 @@ import { FaPen } from "react-icons/fa";
 import axios from "axios";
 import { updateTask } from "@/shared/redux/sections";
 import { useDispatch } from "react-redux";
+import { getAccessToken } from "@/shared/utils/get-jwt";
 
 export default function Task(props: TaskType) {
   const [name, setName] = useState(props.name);
@@ -17,7 +18,7 @@ export default function Task(props: TaskType) {
   const renameTask = () => {
     if (!name) return;
     const headers = {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${getAccessToken()}`,
     };
     axios
       .patch<TaskType>(

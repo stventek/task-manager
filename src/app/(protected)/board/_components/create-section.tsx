@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SectionType } from "../_types/section";
 import { addSection } from "@/shared/redux/sections";
 import { useDispatch } from "react-redux";
+import { getAccessToken } from "@/shared/utils/get-jwt";
 
 type PropsType = {
   sections: SectionType[];
@@ -21,7 +22,7 @@ export default function CreateSection(props: PropsType) {
   const createSection = () => {
     if (!name) return;
     const headers = {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${getAccessToken()}`,
     };
 
     let priority;
