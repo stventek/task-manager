@@ -19,7 +19,7 @@ export default function AuthenticatedLayout({
         setIsAuthenticatedState(true);
       })
       .catch((error) => {
-        //redirect
+        localStorage.removeItem("accessToken");
         push("/");
       });
   }, []);

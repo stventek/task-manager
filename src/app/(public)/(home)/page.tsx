@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
-import Login from "./_components/login";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Task Manager",
-};
+import Login from "./_components/login";
 
 export default function Home() {
   return (
