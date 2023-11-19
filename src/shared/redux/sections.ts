@@ -35,10 +35,15 @@ const sectionsSlice = createSlice({
         }
       });
     },
+    addSection: (state, action) => {
+      const section = action.payload.section;
+      state.sections.push(section);
+    },
   },
 });
 
-export const { replaceSections, addTask, updateTask } = sectionsSlice.actions;
+export const { replaceSections, addTask, updateTask, addSection } =
+  sectionsSlice.actions;
 
 export const sectionsStore = configureStore({
   reducer: sectionsSlice.reducer,

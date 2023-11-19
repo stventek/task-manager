@@ -13,6 +13,7 @@ import {
 } from "@/shared/redux/sections";
 import Section from "./section";
 import { memo } from "react";
+import CreateSection from "./create-section";
 
 const SectionMemo = memo(Section);
 
@@ -41,7 +42,7 @@ function Sections() {
     };
     axios
       .get<SectionsResponse>(
-        process.env.NEXT_PUBLIC_API_BASE + "/api/section?ordering=-priority",
+        process.env.NEXT_PUBLIC_API_BASE + "/api/section?ordering=priority",
         { headers }
       )
       .then((response) => {
@@ -75,6 +76,7 @@ function Sections() {
         {state.map((section) => (
           <SectionMemo key={section.id} {...section} />
         ))}
+        <CreateSection sections={state} />
       </div>
     </main>
   );

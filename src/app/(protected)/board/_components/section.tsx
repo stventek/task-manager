@@ -39,7 +39,7 @@ export default function Section(props: SectionType) {
 
   return (
     <div className="section-task">
-      <div className="card w-96 shadow-xl bg-base-300 shrink-0 max-h-full">
+      <div className="card w-80 shadow-xl bg-base-300 shrink-0 max-h-full">
         <div className="card-body p-4 h-full overflow-hidden">
           <div className="card-actions">
             <h2 className="card-title flex-1">{props.name}</h2>
@@ -70,7 +70,9 @@ export default function Section(props: SectionType) {
           ) : (
             <button
               onClick={() => setAddingTask(true)}
-              className={"btn btn-ghost justify-start btn-sm section-task"}
+              className={
+                "btn btn-ghost justify-start btn-sm section-task no-animation"
+              }
             >
               Add card...
             </button>
