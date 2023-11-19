@@ -39,7 +39,6 @@ export default function Login() {
             push("/board");
           })
           .catch((err) => {
-            console.log(err);
             setSubmitting(false);
             if (err.response.status === 401) {
               setError({ message: "Wrong Username or Password" });

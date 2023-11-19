@@ -1,4 +1,4 @@
-import { SectionType } from "@/app/(protected)/board/types/section";
+import { SectionType } from "@/app/(protected)/board/_types/section";
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 export type sectionsStateType = { sections: SectionType[] };
@@ -21,10 +21,24 @@ const sectionsSlice = createSlice({
         }
       });
     },
+    updateTask: (state, action) => {
+      const task = action.payload.task;
+      state.sections.some((section) => {
+        if (section.id === task.section) {
+          section.tasks.some((sectionTask) => {
+            if (sectionTask.id === task.id) {
+              Object.assign(sectionTask, task);
+              return true;
+            }
+          });
+          return true;
+        }
+      });
+    },
   },
 });
 
-export const { replaceSections, addTask } = sectionsSlice.actions;
+export const { replaceSections, addTask, updateTask } = sectionsSlice.actions;
 
 export const sectionsStore = configureStore({
   reducer: sectionsSlice.reducer,

@@ -4,7 +4,7 @@ import { useOnMountUnsafe } from "@/shared/utils/on-mount-unsafe";
 import dragula from "dragula";
 import { EffectCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { SectionType, SectionsResponse } from "../types/section";
+import { SectionType, SectionsResponse } from "../_types/section";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import {
   replaceSections,
@@ -28,8 +28,11 @@ function Sections() {
       [document.getElementById("sections-container")!],
       {
         direction: "horizontal",
-        moves: (el, container, handle) => {
-          return !handle!.classList.contains("section-task");
+        moves: (el, container, handle, sibling) => {
+          const containsClass = handle!.classList.contains("section-task");
+          const parentContainsClass =
+            handle!.parentElement!.classList.contains("section-task");
+          return !(containsClass || parentContainsClass);
         },
       }
     );
@@ -64,10 +67,10 @@ function Sections() {
   }, [state]);
 
   return (
-    <main className="flex h-screen">
+    <main>
       <div
         id="sections-container"
-        className="flex px-8 pt-20 gap-4 items-start overflow-x-auto max-w-fit"
+        className="h-screen flex px-8 pt-20 pb-4 gap-4 overflow-x-auto max-w-fit"
       >
         {state.map((section) => (
           <SectionMemo key={section.id} {...section} />

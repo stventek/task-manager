@@ -1,35 +1,37 @@
 import { useState } from "react";
+import { TaskType } from "../_types/task";
 
 type PropsType = {
-  save: (title: string) => void;
+  save: (taskId: number, taskName: string) => void;
   cancel: () => void;
+  task: TaskType;
 };
 
-export default function AddTask(props: PropsType) {
-  const [title, setTitle] = useState("");
+export default function RenameTask(props: PropsType) {
+  const [name, setName] = useState("");
 
-  const handleTitleChange = (event: any) => {
-    setTitle(event.target.value);
+  const handleNameChange = (event: any) => {
+    setName(event.target.value);
   };
 
   return (
     <div className="flex flex-col gap-2">
       <input
         autoFocus
-        onChange={handleTitleChange}
+        onChange={handleNameChange}
         onKeyDown={(e) => {
           if (e.key === "Escape") props.cancel();
         }}
-        value={title}
+        value={name}
         type="text"
-        placeholder="Enter a title for this card"
+        placeholder="Change name"
         className="input input-sm w-full section-task"
       />
       <div className="gap-2 flex">
         <button
           className="btn btn-sm btn-primary section-task"
           onClick={(e) => {
-            if (title) props.save(title);
+            if (name) props.save(props.task.id, name);
           }}
         >
           Save
