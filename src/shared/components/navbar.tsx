@@ -1,4 +1,23 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
 export default function Navbar() {
+  const pathname = usePathname();
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    let pathName = pathname!.split("/")[1];
+    if (pathName === "map") {
+      pathName = "Map";
+    } else {
+      pathName = "Board";
+    }
+    setName(pathName);
+  }, [pathname]);
+
   return (
     <div className="navbar bg-base-100 fixed top-0 z-10">
       <div className="flex-none">
@@ -23,16 +42,16 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Board</a>
+              <Link href={"/board"}>Board</Link>
             </li>
             <li>
-              <a>Map Route</a>
+              <Link href={"/map"}>Map Route</Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Board</a>
+        <div className="text-2xl">{name}</div>
       </div>
       <div className="flex-none">
         <a className="btn btn-ghost text-xl">Task Manager</a>
