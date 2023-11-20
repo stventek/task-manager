@@ -8,6 +8,10 @@ Task Manager is a web application built with:
 - DaisyUI
 - Typescript
 
+[live demo](https://task-manager.stventek.com)
+
+[backend](https://github.com/stventek/task-manager-backend)
+
 ## Features
 
 - Manage Lists and Tasks: Easily organize and keep track of your tasks and lists within the application.
@@ -18,7 +22,9 @@ Task Manager is a web application built with:
 
 As this is a user-focused application, SEO optimization is not a concern, and Server-Side Rendering (SSR) is not required. Instead, the application can be generated as a Static Site (SSG) using the command:
 
-`npm run build`
+```bash
+npm run build
+```
 
 This command produces a 'out' folder containing static assets that can be deployed to a CDN, bucket, or other hosting solutions.
 
@@ -32,9 +38,9 @@ git clone <repo>
 
 2. Install the dependencies.
 
-`bash
+```bash
 npm install
-`
+```
 
 3. Configure the project settings:
 
