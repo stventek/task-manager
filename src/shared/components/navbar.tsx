@@ -41,10 +41,10 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li>
+            <li onClick={(e: any) => e.target.blur()}>
               <Link href={"/board"}>Board</Link>
             </li>
-            <li>
+            <li onClick={(e: any) => e.target.blur()}>
               <Link href={"/map"}>Map Route</Link>
             </li>
           </ul>

@@ -1,7 +1,8 @@
 import { SectionType } from "@/app/(protected)/board/_types/section";
 import { TaskType } from "@/app/(protected)/board/_types/task";
+import { LexoRank } from "lexorank";
 
-export const handleDrop = (el: Element, items: SectionType[] | TaskType[]) => {
+export const handleDrop = (el: Element, items: SectionType[]) => {
   let midId = el.id.split("section-")[1];
   let beforeId = el.previousElementSibling?.id.split("section-")[1];
   let afterId = el.nextElementSibling?.id.split("section-")[1];
@@ -14,14 +15,18 @@ export const handleDrop = (el: Element, items: SectionType[] | TaskType[]) => {
     : null;
 
   if (beforeSection && afterSection) {
-    return (+beforeSection.priority + +afterSection.priority) / 2;
+    const beforeSectionRank = LexoRank.parse(beforeSection.priority);
+    const afterSectionRank = LexoRank.parse(afterSection.priority);
+    return beforeSectionRank.between(afterSectionRank).toString();
   }
   if (beforeSection && !afterSection) {
-    return +beforeSection.priority + 1000;
+    const beforeSectionRank = LexoRank.parse(beforeSection.priority);
+    return beforeSectionRank.genNext().toString;
   } else if (!beforeSection && afterSection) {
-    return +afterSection.priority - 1000;
+    const afterSectionRank = LexoRank.parse(afterSection.priority);
+    return afterSectionRank.genPrev().toString();
   } else {
-    return 100000;
+    return LexoRank.middle().toString();
   }
 };
 
@@ -38,13 +43,17 @@ export const handleTaskDrop = (el: Element, items: TaskType[]) => {
     : null;
 
   if (beforeTask && afterTask) {
-    return (+beforeTask.priority + +afterTask.priority) / 2;
+    const beforeTaskRank = LexoRank.parse(beforeTask.priority);
+    const afterTaskRank = LexoRank.parse(afterTask.priority);
+    return beforeTaskRank.between(afterTaskRank).toString();
   }
   if (beforeTask && !afterTask) {
-    return +beforeTask.priority + 1000;
+    const beforeTaskRank = LexoRank.parse(beforeTask.priority);
+    return beforeTaskRank.genNext().toString;
   } else if (!beforeTask && afterTask) {
-    return +afterTask.priority - 1000;
+    const afterTaskRank = LexoRank.parse(afterTask.priority);
+    return afterTaskRank.genPrev().toString();
   } else {
-    return 100000;
+    return LexoRank.middle().toString();
   }
 };

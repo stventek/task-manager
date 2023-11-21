@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "@/shared/redux/sections";
 import { getAccessToken } from "@/shared/utils/get-jwt";
+import { LexoRank } from "lexorank";
 
 export default function Section(props: SectionType) {
   const [isAddingTask, setAddingTask] = useState(false);
@@ -17,10 +18,16 @@ export default function Section(props: SectionType) {
     const headers = {
       Authorization: `Bearer ${getAccessToken()}`,
     };
+
     let priority;
-    let lastTask = props.tasks.at(-1);
-    if (lastTask) priority = +lastTask.priority + 1000;
-    else priority = 100000;
+
+    if (props.tasks.length > 0) {
+      const lastTaskPriority = LexoRank.parse(props.tasks.at(-1)!.priority);
+      priority = lastTaskPriority.genNext().toString();
+    } else {
+      priority = LexoRank.middle().toString();
+    }
+
     axios
       .post<TaskType>(
         process.env.NEXT_PUBLIC_API_BASE + "/api/task/",
