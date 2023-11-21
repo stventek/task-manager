@@ -39,7 +39,15 @@ const sectionsSlice = createSlice({
         )!;
         newSection.tasks.push(task);
         // Sort tasks in the new section by priority
-        newSection.tasks.sort((a, b) => +a.priority - +b.priority);
+        newSection.tasks.sort((a, b) => {
+          if (a.priority < b.priority) {
+            return -1;
+          }
+          if (b > a) {
+            return 1;
+          }
+          return 0;
+        });
       } else {
         Object.assign(oldSection.tasks[oldTaskIndex], task);
       }

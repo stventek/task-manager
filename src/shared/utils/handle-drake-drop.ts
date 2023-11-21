@@ -21,7 +21,7 @@ export const handleDrop = (el: Element, items: SectionType[]) => {
   }
   if (beforeSection && !afterSection) {
     const beforeSectionRank = LexoRank.parse(beforeSection.priority);
-    return beforeSectionRank.genNext().toString;
+    return beforeSectionRank.genNext().toString();
   } else if (!beforeSection && afterSection) {
     const afterSectionRank = LexoRank.parse(afterSection.priority);
     return afterSectionRank.genPrev().toString();
@@ -49,7 +49,7 @@ export const handleTaskDrop = (el: Element, items: TaskType[]) => {
   }
   if (beforeTask && !afterTask) {
     const beforeTaskRank = LexoRank.parse(beforeTask.priority);
-    return beforeTaskRank.genNext().toString;
+    return beforeTaskRank.genNext().toString();
   } else if (!beforeTask && afterTask) {
     const afterTaskRank = LexoRank.parse(afterTask.priority);
     return afterTaskRank.genPrev().toString();
