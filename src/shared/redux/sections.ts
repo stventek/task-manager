@@ -23,27 +23,49 @@ const sectionsSlice = createSlice({
     },
     updateTask: (state, action) => {
       const task = action.payload.task;
-      state.sections.some((section) => {
-        if (section.id === task.section) {
-          section.tasks.some((sectionTask) => {
-            if (sectionTask.id === task.id) {
-              Object.assign(sectionTask, task);
-              return true;
-            }
-          });
-          return true;
-        }
-      });
+
+      const oldSection = state.sections.find((section) =>
+        section.tasks.some((sectionTask) => sectionTask.id === task.id)
+      )!;
+      const oldTaskIndex = oldSection.tasks.findIndex(
+        (sectionTask) => sectionTask.id === task.id
+      );
+
+      if (task.section !== oldSection.tasks[oldTaskIndex].section) {
+        // Remove the task from the old section
+        oldSection.tasks.splice(oldTaskIndex, 1);
+        const newSection = state.sections.find(
+          (section) => section.id === task.section
+        )!;
+        newSection.tasks.push(task);
+        // Sort tasks in the new section by priority
+        newSection.tasks.sort((a, b) => +a.priority - +b.priority);
+      } else {
+        Object.assign(oldSection.tasks[oldTaskIndex], task);
+      }
     },
     addSection: (state, action) => {
       const section = action.payload.section;
       state.sections.push(section);
     },
+    updateSection: (state, action) => {
+      const section = action.payload.section;
+      state.sections.some((sectionE) => {
+        if (sectionE.id === section.id) {
+          Object.assign(sectionE, section);
+        }
+      });
+    },
   },
 });
 
-export const { replaceSections, addTask, updateTask, addSection } =
-  sectionsSlice.actions;
+export const {
+  replaceSections,
+  addTask,
+  updateTask,
+  addSection,
+  updateSection,
+} = sectionsSlice.actions;
 
 export const sectionsStore = configureStore({
   reducer: sectionsSlice.reducer,

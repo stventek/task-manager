@@ -36,7 +36,7 @@ export default function Task(props: TaskType) {
   };
 
   return (
-    <div>
+    <div id={`task-${props.id}`}>
       {isUpdatingName ? (
         <div className="flex flex-col gap-2">
           <input

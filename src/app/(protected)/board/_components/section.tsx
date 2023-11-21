@@ -39,7 +39,7 @@ export default function Section(props: SectionType) {
   };
 
   return (
-    <div className="section-task">
+    <div className="section-task" id={`section-${props.id}`}>
       <div className="card w-80 shadow-xl bg-base-300 shrink-0 max-h-full">
         <div className="card-body p-4 h-full overflow-hidden">
           <div className="card-actions">
@@ -61,7 +61,10 @@ export default function Section(props: SectionType) {
               </svg>
             </button>
           </div>
-          <div className="flex flex-col gap-2 section-container min-h-[48px] overflow-y-auto p-1">
+          <div
+            id={`section-container-${props.id}`}
+            className="flex flex-col gap-2 section-container min-h-[48px] overflow-y-auto p-1"
+          >
             {props.tasks.map((task) => (
               <Task key={task.id} {...task} />
             ))}
