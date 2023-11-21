@@ -10,6 +10,7 @@ export default function Map() {
   const [isMapsLoaded, setIsMapsLoaded] = useState(false);
   const [from, setFrom] = useState<SingleValue<Option> | null>(null);
   const [to, setTo] = useState<SingleValue<Option> | null>(null);
+  const [error, setError] = useState<{ message: string } | null>(null);
 
   const mapRef = useRef<google.maps.Map | null>(null);
   const directionsServiceRef = useRef<google.maps.DirectionsService | null>(
@@ -20,22 +21,38 @@ export default function Map() {
   );
 
   useEffect(() => {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
-      version: "weekly",
-      libraries: ["places", "maps", "routes"],
-    });
-
-    loader
-      .importLibrary("routes")
-      .then((routes) => {
-        directionsServiceRef.current = new routes.DirectionsService();
-        directionsRendererRef.current = new routes.DirectionsRenderer();
-        setIsMapsLoaded(true);
-      })
-      .catch((e) => {
-        // do something
+    //don't load script if already loaded
+    if (!globalThis.google) {
+      const loader = new Loader({
+        apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
+        version: "weekly",
+        libraries: ["places", "maps", "routes"],
       });
+
+      loader
+        .importLibrary("routes")
+        .then((routes) => {
+          directionsServiceRef.current = new routes.DirectionsService();
+          directionsRendererRef.current = new routes.DirectionsRenderer();
+          setIsMapsLoaded(true);
+        })
+        .catch((e) => {
+          // do something
+        });
+    } else {
+      google.maps
+        .importLibrary("routes")
+        .then((routes) => {
+          const { DirectionsService, DirectionsRenderer } =
+            routes as google.maps.RoutesLibrary;
+          directionsServiceRef.current = new DirectionsService();
+          directionsRendererRef.current = new DirectionsRenderer();
+          setIsMapsLoaded(true);
+        })
+        .catch((e) => {
+          // do something
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -74,6 +91,12 @@ export default function Map() {
     directionsServiceRef.current.route(request, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
         directionsRendererRef.current!.setDirections(result);
+        setError(null);
+      } else {
+        setError({
+          message:
+            "No directions available; ensure both origin and destination are in the same country.",
+        });
       }
     });
   }, [isMapsLoaded, from, to]);
@@ -108,6 +131,26 @@ export default function Map() {
               />
             </div>
           </div>
+          {error ? (
+            <div role="alert" className="alert alert-info">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="stroke-current shrink-0 w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              <span>{error.message}</span>
+            </div>
+          ) : (
+            ""
+          )}
           <div id="map" className="flex-1"></div>
         </div>
       ) : (
