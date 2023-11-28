@@ -15,3 +15,9 @@ export function setAccessToken(accessToken: string, remember: boolean) {
     sessionStorage.setItem("accessToken", accessToken);
   }
 }
+
+export function removeAccessToken() {
+  localStorage.removeItem("remember");
+  sessionStorage.removeItem("remember");
+  sessionStorage.removeItem("accessToken");
+}
