@@ -105,7 +105,7 @@ export default function Map() {
     <div className="h-screen pt-20 pb-20">
       {isMapsLoaded ? (
         <div className="w-full h-full max-w-4xl mx-auto flex flex-col gap-4 px-4">
-          <div className="flex justify-between flex-wrap">
+          <div className="flex justify-between flex-wrap z-10">
             <div className="w-56">
               <label htmlFor="from-select">From</label>
               <GooglePlacesAutocomplete
